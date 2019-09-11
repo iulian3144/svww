@@ -2,7 +2,7 @@ import bs4
 import re
 import requests
 from WikiCrop import WikiCrop
-import yaml
+import json
 
 
 crops_re = re.compile(r"(Spring|Summer|Fall|Special)_Crops")
@@ -47,6 +47,14 @@ def main():
 
     for crop in wiki_crops:
         print(crop)
+
+    def serialize(obj):
+        if isinstance(obj, WikiCrop):
+            return obj.__dict__
+        return obj
+    with open('crops.json', 'w') as outf:
+        json.dump(wiki_crops, outf, indent=2, default=serialize)
+
 
 
 if __name__ == '__main__':
